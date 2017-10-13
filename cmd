@@ -73,6 +73,13 @@ prog
         });
       }
   });
+
+prog.command('logs','[app]').action(function(app,options,logger){
+  const stream = coapi.ns(myNetrc['openshift.local'].ns).po('go-welcome-1-tnq6l').log.getStream({ qs: { follow: true } });
+  stream.on('data', chunk => {
+    process.stdout.write(chunk.toString());
+  });
+});  
 prog
   .command('apps:create','[app]') 
   .action(function(app, options, logger) {
@@ -133,7 +140,7 @@ prog
         gogsAPI.createGogsWebhook(app,{
           "username": myNetrc['openshift.local'].login,
           "password": myNetrc['openshift.local'].password
-        },"https://kubernetes.default/oapi/v1/namespaces/myproject/buildconfigs/"+app+"/webhooks/"+webhook+"/generic").then(function(){
+        },"https://kubernetes.default/oapi/v1/namespaces/"+myNetrc['openshift.local'].ns+"/buildconfigs/"+app+"/webhooks/"+webhook+"/generic").then(function(){
             simpleGit.init(null,function(){
               simpleGit.addRemote("openshift",'http://'+myNetrc['openshift.local'].gitserver+'/'+myNetrc['openshift.local'].login+'/'+app, function(err,res){
                   console.log("Adding remote git repo");
