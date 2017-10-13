@@ -131,7 +131,7 @@ prog
         });
         
         //create webhook on gogs
-        gogsAPI.createWebhook(app,{
+        gogsAPI.createGogsWebhook(app,{
           "username": myNetrc['openshift.local'].login,
           "password": myNetrc['openshift.local'].password
         },"https://kubernetes.default/oapi/v1/namespaces/myproject/buildconfigs/"+app+"/webhooks/"+webhook+"/generic").then(function(){
