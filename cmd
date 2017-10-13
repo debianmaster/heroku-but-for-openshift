@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const prog = require('commander-plus');
-var prompt = require('prompt');
 var GogsClient = require('gogs-client');
 var netrc = require('netrc');
 var myNetrc = netrc();
