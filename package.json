@@ -1,5 +1,5 @@
 {
-  "name": "ocp",
+  "name": "openshift-cmd-plus",
   "version": "1.0.0",
   "description": "",
   "bin": {
