@@ -1,0 +1,222 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "{%=o.name%}",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "{%=o.name%}"
+                }
+            },
+            "spec": {
+                "lookupPolicy": {
+                    "local": false
+                }
+            },
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "{%=o.name%}",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "{%=o.name%}"
+                }
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "Generic",
+                        "generic": {
+                            "secret": "{%=o.webhook%}"
+                        }
+                    },
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    }
+                ],
+                "source": {
+                    "type": "Git",
+                    "sourceSecret":{
+                        "name": "{%=o.username%}-git-secret"
+                    },
+                    "git": {
+                        "uri": "{%=o.git_url%}"
+                    }
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "namespace": "openshift",
+                            "name": "{%=o.base_image%}"
+                        }
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "{%=o.name%}:latest"
+                    }
+                },
+                "resources": {},
+                "postCommit": {},
+                "nodeSelector": null
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "{%=o.name%}",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "{%=o.name%}"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "resources": {}
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "{%=o.name%}"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "{%=o.name%}:latest"
+                            }
+                        }
+                    }
+                ],
+                "replicas": 1,
+                "test": false,
+                "selector": {
+                    "app": "{%=o.name%}",
+                    "deploymentconfig": "{%=o.name%}"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "{%=o.name%}",
+                            "deploymentconfig": "{%=o.name%}"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "{%=o.name%}",
+                                "image": "{%=o.name%}:latest",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {}
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "latestVersion": 0,
+                "observedGeneration": 0,
+                "replicas": 0,
+                "updatedReplicas": 0,
+                "availableReplicas": 0,
+                "unavailableReplicas": 0
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "{%=o.name%}",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "{%=o.name%}"
+                }
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "8080-tcp",
+                        "protocol": "TCP",
+                        "port": 8080,
+                        "targetPort": 8080
+                    }
+                ],
+                "selector": {
+                    "app": "{%=o.name%}",
+                    "deploymentconfig": "{%=o.name%}"
+                }
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "{%=o.name%}",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "{%=o.name%}"
+                }
+            },
+            "spec": {
+                "host": "",
+                "to": {
+                    "kind": "",
+                    "name": "{%=o.name%}",
+                    "weight": null
+                },
+                "port": {
+                    "targetPort": "8080-tcp"
+                }
+            },
+            "status": {
+                "ingress": []
+            }
+        },
+        {
+            "kind": "Secret",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "{%=o.username%}-git-secret"
+            },
+            "data": {
+                "password": "{%=o.password_hash%}",
+                "username": "{%=o.username_hash%}"
+            },
+            "type": "kubernetes.io/basic-auth"
+        }
+    ]
+}

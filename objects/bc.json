@@ -1,0 +1,52 @@
+{
+  "kind": "BuildConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "CHANGE_ME"
+  },
+  "spec": {
+    "triggers": [
+      {
+        "type": "Generic",
+        "generic": {
+          "secret": "N1A0Pe2i2gBKeooxbz6u"
+        }
+      },
+      {
+        "type": "ConfigChange"
+      },
+      {
+        "type": "ImageChange",
+        "imageChange": {}
+      }
+    ],
+    "source": {
+      "type": "Git",
+      "git": {
+        "uri": "CHANGE_ME"
+      }
+    },
+    "strategy": {
+      "type": "Source",
+      "sourceStrategy": {
+        "from": {
+          "kind": "ImageStreamTag",
+          "namespace": "openshift",
+          "name": "nodejs:6"
+        }
+      }
+    },
+    "output": {
+      "to": {
+        "kind": "ImageStreamTag",
+        "name": "nodejs-welcome:latest"
+      }
+    },
+    "resources": {},
+    "postCommit": {},
+    "nodeSelector": null
+  },
+  "status": {
+    "lastVersion": 0
+  }
+}

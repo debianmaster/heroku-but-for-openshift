@@ -1,0 +1,31 @@
+{
+  "name": "ocp",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "ocp": "./cmd"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "blueimp-tmpl": "^3.11.0",
+    "caporal": "^0.7.0",
+    "commander": "^2.11.0",
+    "commander-plus": "0.0.6",
+    "dot": "git+https://github.com/olado/doT.git",
+    "dustjs-linkedin": "^2.7.5",
+    "gogs-client": "git+https://github.com/debianmaster/node-gogs-client.git",
+    "inquirer": "^3.3.0",
+    "inquirer-command-prompt": "0.0.6",
+    "kubernetes-client": "^3.16.0",
+    "netrc": "^0.1.4",
+    "node-jq": "^0.7.0",
+    "openshift-client": "^3.10.8",
+    "prompt": "^1.0.0",
+    "randomstring": "^1.1.5",
+    "simple-git": "^1.79.0"
+  }
+}

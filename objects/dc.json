@@ -1,0 +1,47 @@
+{
+    "kind": "DeploymentConfig",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "welcome",
+        "creationTimestamp": null,
+        "labels": {
+            "run": "welcome"
+        }
+    },
+    "spec": {
+        "strategy": {
+            "resources": {}
+        },
+        "triggers": null,
+        "replicas": 1,
+        "test": false,
+        "selector": {
+            "run": "welcome"
+        },
+        "template": {
+            "metadata": {
+                "creationTimestamp": null,
+                "labels": {
+                    "run": "welcome"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "name": "welcome",
+                        "image": "docker.io/debianmaster/go-welcome",
+                        "resources": {}
+                    }
+                ]
+            }
+        }
+    },
+    "status": {
+        "latestVersion": 0,
+        "observedGeneration": 0,
+        "replicas": 0,
+        "updatedReplicas": 0,
+        "availableReplicas": 0,
+        "unavailableReplicas": 0
+    }
+}

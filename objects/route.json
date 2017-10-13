@@ -1,0 +1,25 @@
+{
+    "kind": "Route",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "welcome",
+        "creationTimestamp": null,
+        "labels": {
+            "app": "welcome"
+        }
+    },
+    "spec": {
+        "host": "",
+        "to": {
+            "kind": "",
+            "name": "welcome",
+            "weight": null
+        },
+        "port": {
+            "targetPort": "8080-8080"
+        }
+    },
+    "status": {
+        "ingress": []
+    }
+}
