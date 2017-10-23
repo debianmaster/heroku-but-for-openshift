@@ -105,6 +105,7 @@ prog
           base_image: bp,
           git_url: 'http://'+myNetrc['openshift.local'].gitserver+'/'+myNetrc['openshift.local'].login+'/'+app+'.git'
         }
+        console.log(oc_app);
         var tmpl=require('blueimp-tmpl');
         var oc_app_json = require('./objects/all'); 
 
@@ -177,3 +178,4 @@ prog
   });
 
 prog.parse(process.argv);
+//oc adm policy add-role-to-user admin -z gogs
